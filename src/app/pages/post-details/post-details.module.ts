@@ -8,12 +8,16 @@ import { PostDetailsPageRoutingModule } from './post-details-routing.module';
 
 import { PostDetailsPage } from './post-details.page';
 
+import { CommentsComponentModule } from '../../components/comments/comments.component.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PostDetailsPageRoutingModule
+    PostDetailsPageRoutingModule,
+    CommentsComponentModule
+    
   ],
   declarations: [PostDetailsPage]
 })

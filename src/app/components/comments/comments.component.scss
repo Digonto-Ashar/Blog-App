@@ -1,0 +1,55 @@
+.comments-container {
+  padding-top: 24px;
+  border-top: 1px solid var(--ion-color-step-150, #e0e0e0);
+  margin-top: 24px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+// Comment Submission Form
+.comment-form {
+  margin-bottom: 24px;
+  ion-item {
+    --background: var(--ion-color-light);
+    border-radius: 12px;
+  }
+  ion-button {
+    margin-top: 12px;
+  }
+}
+
+.login-prompt {
+  text-align: center;
+  color: var(--ion-color-medium-shade);
+  margin: 24px 0;
+}
+
+// Comment List
+ion-list {
+  background: transparent;
+}
+
+ion-item {
+  --background: transparent;
+  align-items: flex-start;
+  margin-bottom: 16px;
+
+  ion-label {
+    h3 {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .comment-content {
+      white-space: normal;
+      color: var(--ion-color-dark-shade);
+    }
+    .comment-date {
+      font-size: 0.8rem;
+      color: var(--ion-color-medium-shade);
+    }
+  }
+}

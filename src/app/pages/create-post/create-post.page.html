@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Create a New Post</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="createPostForm" (ngSubmit)="submitPost()">
+    <ion-list>
+      <!-- Title input remains the same -->
+      <ion-item>
+        <ion-label position="floating">Title</ion-label>
+        <ion-input formControlName="title" type="text" required></ion-input>
+      </ion-item>
+      
+      <!-- =============================================== -->
+      <!-- FIX 1: CORRECTED CATEGORY SELECTOR              -->
+      <!-- =============================================== -->
+      <ion-item class="item-select">
+        <ion-label>Category</ion-label>
+        <ion-select formControlName="category" interface="action-sheet" placeholder="Select one">
+          <ion-select-option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Content textarea remains the same -->
+      <ion-item>
+        <ion-label position="floating">Content</ion-label>
+        <ion-textarea formControlName="content" rows="10" required></ion-textarea>
+      </ion-item>
+
+      <!-- =============================================== -->
+      <!-- FIX 2: CORRECTED FILE INPUT                     -->
+      <!-- =============================================== -->
+      <ion-item lines="none" class="file-input-item">
+        <ion-label>Featured Image</ion-label>
+        <div class="file-input-display" slot="end">
+          <ion-button>
+            <!-- This label makes the hidden file input clickable -->
+            <label for="file-upload">Choose File</label>
+          </ion-button>
+          <span>{{ selectedFile ? selectedFile.name : 'No file chosen' }}</span>
+        </div>
+        <!-- The actual file input is now completely hidden but still works -->
+        <input id="file-upload" type="file" (change)="onFileChange($event)" accept="image/*" class="ion-hide" />
+      </ion-item>
+
+    </ion-list>
+
+    <ion-button 
+      type="submit" 
+      expand="block" 
+      class="ion-margin-top" 
+      [disabled]="createPostForm.invalid || isLoading">
+      <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+      <span *ngIf="!isLoading">Publish Post</span>
+    </ion-button>
+  </form>
+</ion-content>

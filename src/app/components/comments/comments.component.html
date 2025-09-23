@@ -1,0 +1,45 @@
+<div class="comments-container">
+  <h2 class="section-title">Comments ({{ comments.length }})</h2>
+  
+  <form [formGroup]="commentForm" (ngSubmit)="submitComment()" *ngIf="currentUser" class="comment-form">
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img [src]="currentUser.avatar?.url ? api.baseUrl.replace('/api', '') + currentUser.avatar.url : 'assets/avatar-placeholder.png'" />
+      </ion-avatar>
+      <ion-textarea formControlName="content" placeholder="Add a comment..."></ion-textarea>
+    </ion-item>
+    
+    <!-- This button is now INSIDE the form and has type="submit" -->
+    <ion-button type="submit" expand="block" [disabled]="commentForm.invalid">Post Comment</ion-button>
+  </form>
+
+  <!-- Message shown to users who are not logged in -->
+  <div *ngIf="!currentUser" class="login-prompt">
+    <p>Please <a routerLink="/login">log in</a> to post a comment.</p>
+  </div>
+
+  <!-- List of existing comments -->
+  <ion-list *ngIf="!isLoading && comments.length > 0">
+    <ion-item *ngFor="let comment of comments" lines="none">
+      <ion-avatar slot="start">
+        <img [src]="comment.author?.avatar?.url ? api.baseUrl.replace('/api', '') + comment.author.avatar.url : 'assets/avatar-placeholder.png'" />
+      </ion-avatar>
+      <ion-label>
+        <h3>{{ comment.author?.firstName }} {{ comment.author?.lastName }}</h3>
+        <p class="comment-content">{{ comment.content }}</p>
+        <p class="comment-date">{{ comment.createdAt | date:'medium' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Skeleton loader while comments are loading -->
+  <ion-list *ngIf="isLoading">
+    <ion-item *ngFor="let i of [1,2]" lines="none">
+      <ion-avatar slot="start"><ion-skeleton-text animated></ion-skeleton-text></ion-avatar>
+      <ion-label>
+        <h3><ion-skeleton-text animated style="width: 40%;"></ion-skeleton-text></h3>
+        <p><ion-skeleton-text animated style="width: 90%;"></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</div>

@@ -9,9 +9,8 @@ import { ApiService } from './api';
   providedIn: 'root'
 })
 export class AuthService {
-  // BehaviorSubject to hold the current user object. It emits the current value to new subscribers.
+
   private userSubject = new BehaviorSubject<any>(null);
-  // Public observable that components can subscribe to for real-time updates.
   public user$ = this.userSubject.asObservable();
 
   constructor(private http: HttpClient, private api: ApiService) {
@@ -38,6 +37,7 @@ export class AuthService {
     }).pipe(
       tap(response => {
         const user = response.user;
+        user.token = response.token;
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.userSubject.next(user);
       })
@@ -54,5 +54,19 @@ export class AuthService {
         this.userSubject.next(null);
       })
     );
+  }
+
+    getToken(): string | null {
+    const currentUser = this.userSubject.getValue();
+    if (currentUser && currentUser.token) {
+      return currentUser.token;
+    }
+        const userFromStorage = localStorage.getItem('currentUser');
+    if (userFromStorage) {
+      const parsedUser = JSON.parse(userFromStorage);
+      return parsedUser.token || null;
+    }
+    
+    return null;
   }
 }

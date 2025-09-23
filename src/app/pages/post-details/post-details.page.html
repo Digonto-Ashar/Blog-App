@@ -54,6 +54,8 @@
       
       
      <div class="post-content" [innerHTML]="serializeRichText(post.content?.root)"></div>
+
+     <app-comments [postId]="post.id" *ngIf="post"></app-comments>
     </div>
   </div>
 </ion-content>
