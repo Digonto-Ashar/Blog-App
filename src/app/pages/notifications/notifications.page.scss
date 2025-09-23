@@ -1,0 +1,51 @@
+ion-list {
+  padding: 0;
+}
+
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-bottom: 12px;
+  --inner-padding-top: 12px;
+  
+  ion-avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  ion-label {
+    h2 {
+      font-size: 0.95rem;
+      color: var(--ion-color-dark-shade);
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+    p {
+      font-size: 0.8rem;
+      color: var(--ion-color-medium-shade);
+    }
+  }
+}
+
+// Styling for the empty state message
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  padding: 20px;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-weight: 600;
+    margin-top: 0;
+    font-size: 1.1rem;
+  }
+}

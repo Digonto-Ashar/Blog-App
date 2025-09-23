@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Notifications</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ng-container *ngIf="!isLoading; else skeleton">
+    <ion-list *ngIf="notifications.length > 0; else emptyState">
+      <ion-item *ngFor="let post of notifications" button="true" (click)="goToPost(post)">
+        <ion-avatar slot="start">
+          <img [src]="api.baseUrl.replace('/api', '') + post.author?.avatar?.url" [alt]="post.author?.firstName" />
+        </ion-avatar>
+        
+        <ion-label class="ion-text-wrap">
+          <h2>
+            <strong>{{ post.author?.firstName }} {{ post.author?.lastName }}</strong> posted an article in <strong>{{ post.categories?.name }}</strong>
+          </h2>
+          <p>{{ post.publishedAt | date:'medium' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+  
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <ion-icon name="notifications-off-outline"></ion-icon>
+      <h3>No new notifications</h3>
+      <p>New posts from authors will appear here.</p>
+    </div>
+  </ng-template>
+
+  <ng-template #skeleton>
+    <ion-list>
+      <ion-item *ngFor="let i of [1,2,3,4,5,6]">
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3><ion-skeleton-text animated style="width: 80%"></ion-skeleton-text></h3>
+          <p><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+
+</ion-content>

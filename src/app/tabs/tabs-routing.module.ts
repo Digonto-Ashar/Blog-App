@@ -48,6 +48,12 @@ const routes: Routes = [
         path: 'favorite',
         loadChildren: () => import('../pages/favorite/favorite.module').then(m => m.FavoritePageModule)
       },
+      
+     {
+        path: 'notifications', 
+        loadChildren: () => import('../pages/notifications/notifications.module').then(m => m.NotificationsPageModule)
+      },
+      
       {
         path: '',
         redirectTo: '/tabs/home',
