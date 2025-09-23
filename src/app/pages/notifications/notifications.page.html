@@ -18,7 +18,6 @@
         <ion-avatar slot="start">
           <img [src]="api.baseUrl.replace('/api', '') + post.author?.avatar?.url" [alt]="post.author?.firstName" />
         </ion-avatar>
-        
         <ion-label class="ion-text-wrap">
           <h2>
             <strong>{{ post.author?.firstName }} {{ post.author?.lastName }}</strong> posted an article in <strong>{{ post.categories?.name }}</strong>

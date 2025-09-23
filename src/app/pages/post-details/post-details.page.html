@@ -25,7 +25,7 @@
       <div class="author-info" *ngIf="post.author">
         <ion-avatar slot="start">
           <!-- Use optional chaining to safely access the author's avatar URL -->
-          <img [src]="api.baseUrl.replace('/api', '') + post.author.avatar?.url" [alt]="post.author.firstName">
+          <img [src]="api.baseUrl.replace('/api', '') + post.author?.avatar?.url" [alt]="post.author?.firstName" />
         </ion-avatar>
         <ion-label>
           <h2>{{ post.author.firstName }} {{ post.author.lastName }}</h2>

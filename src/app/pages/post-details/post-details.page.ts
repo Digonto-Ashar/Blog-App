@@ -33,7 +33,7 @@ export class PostDetailsPage implements OnInit {
 
     if (postId) {
       // Use the new subscribe syntax with 'next' and 'error' handlers
-      this.http.get<any>(`${this.api.baseUrl}/posts/${postId}?depth=1`).subscribe({
+      this.http.get<any>(`${this.api.baseUrl}/posts/${postId}?depth=2`).subscribe({
         next: (data) => {
           this.post = data;
           this.isLoading = false; // <-- THIS IS THE CRITICAL FIX
