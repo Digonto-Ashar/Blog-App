@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Application</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+
+  <!-- HIGHLIGHTS SLIDER SECTION                       -->
+
+  <ng-container *ngIf="!isLoading; else highlightSkeleton">
+    <swiper-container 
+      #highlightSlider 
+      class="highlight-slider" 
+      [loop]="true" 
+      [pagination]="true" 
+      navigation="true">
+      <swiper-slide *ngFor="let post of highlightedPosts; trackBy: trackByPostId" (click)="openPost(post)">
+        <div class="slide-background" 
+             *ngIf="post.featuredImage" 
+             [style.background-image]="'url(' + (api.baseUrl.replace('/api', '') + post.featuredImage.url) + ')'">
+        </div>
+        <div class="slide-content">
+          <h2>{{ post.title }}</h2>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+  </ng-container>
+
+  <ng-template #highlightSkeleton>
+    <ion-skeleton-text animated class="highlight-slider-skeleton"></ion-skeleton-text>
+  </ng-template>
+
+
+  <!-- CATEGORY SECTION                                -->
+
+  <div class="category-section">
+    <ion-item lines="none">
+      <ion-label class="section-title">Categories</ion-label>
+      <ion-button slot="end" fill="clear" size="small" (click)="goToCategories()">View All</ion-button>
+    </ion-item>
+
+    <ng-container *ngIf="!isLoading; else categorySkeleton">
+      <swiper-container class="category-slider" slides-per-view="auto" navigation="true">
+        <swiper-slide *ngFor="let category of categories">
+          <div class="category-item" (click)="openCategory(category)">
+            <span>{{ category.name }}</span>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+    </ng-container>
+
+    <ng-template #categorySkeleton>
+      <div class="category-slider-skeleton">
+        <div class="category-item-skeleton" *ngFor="let i of [1,2,3,4]">
+          <ion-skeleton-text animated style="width: 80%;"></ion-skeleton-text>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+<!-- Latest Post Section -->
+
+  <div class="latest-posts-section">
+    <ion-item lines="none">
+      <ion-label class="section-title">Latest Posts</ion-label>
+    </ion-item>
+    
+    <ng-container *ngIf="!isLoading; else latestPostsSkeleton">
+      <ion-list class="ion-no-padding">
+        <ion-item *ngFor="let post of latestPosts" lines="none" button detail="false" (click)="openPost(post)">
+          <ion-thumbnail slot="start" *ngIf="post.featuredImage">
+            <img [src]="api.baseUrl.replace('/api', '') + post.featuredImage.url" [alt]="post.title">
+          </ion-thumbnail>
+          <ion-label class="ion-text-wrap">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.createdAt | date:'mediumDate' }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+
+    <ng-template #latestPostsSkeleton>
+      <ion-list class="ion-no-padding">
+        <ion-item *ngFor="let i of [1,2,3]" lines="none">
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-thumbnail>
+          <ion-label>
+            <h3><ion-skeleton-text animated style="width: 80%;"></ion-skeleton-text></h3>
+            <p><ion-skeleton-text animated style="width: 50%;"></ion-skeleton-text></p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </div>
+
+</ion-content>

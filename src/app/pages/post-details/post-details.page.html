@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <!-- Use optional chaining on the category name as well for safety -->
+    <ion-title *ngIf="post">{{ post.categories?.name || 'Post' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div *ngIf="post">
+    <!-- Use optional chaining to safely access the featuredImage URL -->
+    <div *ngIf="post.featuredImage?.url" class="featured-image-container">
+      <img [src]="api.baseUrl.replace('/api', '') + post.featuredImage.url" [alt]="post.title">
+    </div>
+
+    <div class="ion-padding post-content-container">
+      <h1 class="post-title">{{ post.title }}</h1>
+      
+      <div class="author-info" *ngIf="post.author">
+        <ion-avatar slot="start">
+          <!-- Use optional chaining to safely access the author's avatar URL -->
+          <img [src]="api.baseUrl.replace('/api', '') + post.author.avatar?.url" [alt]="post.author.firstName">
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ post.author.firstName }} {{ post.author.lastName }}</h2>
+          <p>{{ post.publishedAt | date:'fullDate' }}</p>
+        </ion-label>
+      </div>
+
+      <div class="meta-container">
+        <ion-chip *ngIf="post.categories?.name">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          <ion-label>{{ post.categories.name }}</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="post.status" [color]="post.status === 'published' ? 'success' : 'medium'">
+          <ion-icon [name]="post.status === 'published' ? 'checkmark-circle-outline' : 'hourglass-outline'"></ion-icon>
+          <ion-label>{{ post.status }}</ion-label>
+        </ion-chip>
+        <ion-button *ngIf="user$ | async" fill="clear" (click)="toggleFavorite()" class="favorite-button">
+          <ion-icon
+            slot="icon-only"
+            [name]="(isFavorite$ | async) ? 'heart' : 'heart-outline'"
+            color="danger"
+            aria-label="Toggle Favorite">
+          </ion-icon>
+        </ion-button>
+      </div>
+      
+      
+     <div class="post-content" [innerHTML]="serializeRichText(post.content?.root)"></div>
+    </div>
+  </div>
+</ion-content>

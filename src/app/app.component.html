@@ -1,3 +1,76 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <!-- The Side Menu -->
+  <ion-menu content-id="main-content" type="overlay">
+    <ion-content>
+      
+      <!-- =================================== -->
+      <!-- 1. DYNAMIC USER HEADER              -->
+      <!-- =================================== -->
+      <div class="menu-header">
+        <!-- We use an ng-container with the async pipe to automatically handle the user observable -->
+        <ng-container *ngIf="user$ | async as user; else guestView">
+          
+          <!-- This part is shown ONLY if the user is logged in -->
+          <ion-avatar>
+            <!-- Safely checks for avatar URL, otherwise shows a default icon -->
+            <img [src]="user.avatar?.url ? (api.baseUrl.replace('/api', '') + user.avatar.url) : 'assets/icon/favicon.png'" />
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+            <p>{{ user.email }}</p>
+          </ion-label>
+          
+        </ng-container>
+
+        <!-- This part is shown ONLY if the user is a guest (not logged in) -->
+        <ng-template #guestView>
+          <ion-label>
+            <h2>Guest User</h2>
+            <p>You are not logged in.</p>
+          </ion-label>
+        </ng-template>
+      </div>
+
+      <!-- =================================== -->
+      <!-- 2. MAIN NAVIGATION LIST             -->
+      <!-- =================================== -->
+      <ion-list id="main-nav-list">
+        <ion-list-header></ion-list-header>
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+          <ion-item button routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false">
+            <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+            <ion-label>{{ p.title }}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+
+      <!-- =================================== -->
+      <!-- 3. DYNAMIC AUTHENTICATION LIST      -->
+      <!-- =================================== -->
+      <ion-list id="auth-list">
+        <ion-list-header>Account</ion-list-header>
+        
+        <!-- Show this item ONLY if the user is NOT logged in -->
+        <ion-menu-toggle auto-hide="false" *ngIf="!(user$ | async)">
+          <ion-item button routerDirection="root" routerLink="/login" lines="none" detail="false">
+            <ion-icon slot="start" name="log-in-outline"></ion-icon>
+            <ion-label>Login / Sign Up</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <!-- Show this item ONLY if the user IS logged in -->
+        <ion-menu-toggle auto-hide="false" *ngIf="user$ | async">
+          <ion-item button (click)="logout()" lines="none" detail="false">
+            <ion-icon slot="start" name="log-out-outline"></ion-icon>
+            <ion-label>Logout</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+      </ion-list>
+
+    </ion-content>
+  </ion-menu>
+
+  <!-- The Main Content of Your App -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

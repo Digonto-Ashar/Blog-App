@@ -1,0 +1,42 @@
+<!-- src/app/pages/category-posts/category-posts.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/category"></ion-back-button>
+    </ion-buttons>
+   <ion-title *ngIf="category">{{ category.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <!-- Category Header -->
+    <div class="category-header ion-padding" *ngIf="category">
+      <h1>{{ category.name }}</h1>
+      <p *ngIf="category.description">{{ category.description }}</p>
+    </div>
+
+    <!-- List of Posts -->
+    <ion-list class="ion-no-padding">
+      <ion-item *ngFor="let post of posts" lines="full" button detail="true" (click)="openPost(post)">
+        <ion-thumbnail slot="start" *ngIf="post.featuredImage">
+          <img [src]="api.baseUrl.replace('/api', '') + post.featuredImage.url" [alt]="post.title">
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ post.title }}</h2>
+          <p>{{ post.publishedAt | date:'mediumDate' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <!-- Empty State -->
+    <div *ngIf="posts.length === 0" class="empty-state ion-text-center ion-padding">
+      <ion-icon name="documents-outline"></ion-icon>
+      <p>No posts found in this category yet.</p>
+    </div>
+  </div>
+</ion-content>

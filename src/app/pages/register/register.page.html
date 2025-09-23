@@ -1,0 +1,55 @@
+
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="login-wrapper">
+    
+    <div class="login-header">
+      <img src="assets/icon/favicon.png" alt="App Logo" class="logo">
+      <h1>Create Your Account</h1>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label position="floating">First Name</ion-label>
+        <ion-input formControlName="firstName" type="text" autocapitalize="words"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Last Name</ion-label>
+        <ion-input formControlName="lastName" type="text" autocapitalize="words"></ion-input>
+      </ion-item>
+      
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email" inputmode="email"></ion-input>
+      </ion-item>
+      
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" [disabled]="registerForm.invalid" class="login-button">
+        Create Account
+      </ion-button>
+      
+    </form>
+
+    <div class="signup-link">
+      <p>Already have an account? <a routerLink="/login">Log In</a></p>
+    </div>
+
+  </div>
+</ion-content>

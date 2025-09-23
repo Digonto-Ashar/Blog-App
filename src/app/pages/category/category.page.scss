@@ -1,0 +1,36 @@
+
+ion-list {
+  background: transparent; // Use the content background
+  padding-top: 8px;
+}
+
+// Style each category item to look like a modern card
+ion-item {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  margin-bottom: 12px;
+  --background: var(--ion-card-background, #ffffff);
+  --padding-start: 16px;
+  --min-height: 60px; // A comfortable, tappable height
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  
+  // A subtle lift effect when the user hovers over an item
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Style the text inside each category item
+ion-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--ion-color-dark-shade);
+}
+
+// Add a chevron icon to the right of each item to indicate it's tappable
+ion-item::part(detail-icon) {
+  font-size: 1.2rem;
+  color: var(--ion-color-medium-shade);
+  opacity: 0.8;
+}
