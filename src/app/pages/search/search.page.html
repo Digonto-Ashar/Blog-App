@@ -1,13 +1,56 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>search</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">search</ion-title>
-    </ion-toolbar>
-  </ion-header>
+      <ion-searchbar 
+      [(ngModel)]="searchTerm" 
+      (ionInput)="onSearchChange()"
+      placeholder="Search for posts..."
+      animated="true">
+    </ion-searchbar>
+  <!-- Show skeleton text while the first search is loading -->
+  <ion-list *ngIf="isLoading && searchResults.length === 0">
+    <ion-item *ngFor="let i of [1,2,3,4,5]">
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-label>
+        <h3><ion-skeleton-text animated style="width: 80%;"></ion-skeleton-text></h3>
+        <p><ion-skeleton-text animated style="width: 50%;"></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Show the search results -->
+  <ion-list *ngIf="searchResults.length > 0">
+    <ion-item *ngFor="let post of searchResults" button="true" (click)="goToPost(post.id)">
+      <ion-thumbnail slot="start">
+        <img [src]="api.baseUrl.replace('/api', '') + post.featuredImage?.url" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.categories?.name }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Show a message if there are no results -->
+  <div *ngIf="noResults && searchTerm.length > 0" class="empty-state">
+    <ion-icon name="search-outline"></ion-icon>
+    <h3>No Results Found</h3>
+    <p>We couldn't find any posts matching "{{ searchTerm }}".</p>
+  </div>
+
+  <!-- Infinite scroll to load more results -->
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more results..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

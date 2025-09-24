@@ -58,7 +58,6 @@ export class CommentsComponent implements OnInit {
     
     if (this.commentForm.invalid) {
       console.log('Form is invalid. Cannot submit.');
-      // Optionally, you can mark all fields as touched to show validation errors
       this.commentForm.markAllAsTouched(); 
       return;
     }
@@ -88,7 +87,6 @@ export class CommentsComponent implements OnInit {
       next: (response) => {
         console.log('Comment submitted successfully!', response);
         this.commentForm.reset();
-        // IMPORTANT: Reload the comments list to show the new comment
         this.loadComments(); 
       },
       error: (err) => {

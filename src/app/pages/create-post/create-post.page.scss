@@ -5,9 +5,6 @@ ion-item {
   margin-bottom: 16px;
 }
 
-// ===============================================
-// FIX 1: CATEGORY SELECTOR STYLING
-// ===============================================
 ion-item.item-select {
   ion-label {
     // Keep the label static on the left
@@ -19,15 +16,12 @@ ion-item.item-select {
   }
 }
 
-// ===============================================
-// FIX 2: FILE INPUT STYLING
-// ===============================================
 ion-item.file-input-item {
   --background: transparent;
   --border-color: var(--ion-color-step-300, #555);
   --border-style: dashed;
   --border-width: 2px;
-  --inner-padding-end: 0; // Remove default padding
+  --inner-padding-end: 0; 
   display: flex;
   align-items: center;
 

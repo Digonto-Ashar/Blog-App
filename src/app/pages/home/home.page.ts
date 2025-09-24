@@ -42,8 +42,8 @@ export class HomePage implements OnInit {
 
     forkJoin([posts$, categories$]).subscribe(
       ([postsData, categoryData]) => {
-        this.highlightedPosts = postsData.docs;
-        this.latestPosts = postsData.docs.slice(5, 9);
+        this.highlightedPosts = postsData.docs.slice(5,9);
+        this.latestPosts = postsData.docs.slice(0,5);
         this.categories = categoryData.docs;
         this.isLoading = false;
 
